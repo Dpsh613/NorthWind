@@ -43,8 +43,4 @@ if (fs.existsSync(publicDir)) {
   });
 }
 
-const PORT = process.env.PORT || 3001;
-
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`listening on port: ${PORT}`);
-});
+app.listen(env.PORT, () => console.log("listening on port:", env.PORT));
