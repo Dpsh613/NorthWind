@@ -6,7 +6,14 @@ const envSchema = z.object({
   NODE_ENV: z
     .enum(["development", "production", "test"])
     .default("development"),
-  PORT: z.coerce.number().default(3001),
+  PORT: z
+    .preprocess((val) => {
+      if (typeof val === "string" && val.trim() === "") {
+        return undefined;
+      }
+      return val;
+    }, z.coerce.number())
+    .default(3001),
   DATABASE_URL: z.string().min(1),
 
   CLERK_PUBLISHABLE_KEY: z.string().min(1),
