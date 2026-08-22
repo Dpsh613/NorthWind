@@ -37,9 +37,11 @@ export function loadEnv() {
   const parsed = envSchema.safeParse(process.env);
 
   if (!parsed.success) {
-    console.error(parsed.error.flatten().fieldErrors);
+    const errors = JSON.stringify(parsed.error.flatten().fieldErrors, null, 2);
+    console.error("Missing/Invalid Env Variables:", errors);
 
-    throw new Error("Invalid environment variables");
+    // Including the errors in the message guarantees it prints to the log crash stream
+    throw new Error(`Invalid environment variables: ${errors}`);
   }
 
   return parsed.data;
